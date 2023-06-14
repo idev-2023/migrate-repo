@@ -1,11 +1,23 @@
 terraform {
-  backend "s3" {
-    bucket = "terraform-state-acg1"
-    key = "state.tfstate"
-    region = "us-west-1"
+   required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.0"
+    }
   }
+}
 
-  required_version = "1.3.6"
+provider "aws" {
+  region = "us-east-1"
+}
+
+  cloud {
+    organization = "terraform-cloud-organization7777"
+
+    workspaces {
+      name = "production"
+    }
+  }
 }
 
 resource "aws_s3_bucket" "main" {
